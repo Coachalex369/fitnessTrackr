@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API;
+const API = "https://fitnesstrac-kr.herokuapp.com/api";
 
 /** Fetches an array of activities from the API. */
 export async function getActivities() {
@@ -34,4 +34,25 @@ export async function createActivity(token, activity) {
     const result = await response.json();
     throw Error(result.message);
   }
+}
+
+export async function deleteActivity(token, activityId) {
+  if (!token) {
+    throw Error("You must be signed in to delete an activity.");
+  }
+
+  const response = await fetch(API + "/activities/" + activityId, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to delete activity");
+  }
+
+  return result;
 }

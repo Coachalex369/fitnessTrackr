@@ -16,7 +16,7 @@ export default function ActivityForm({ syncActivities }) {
 
     try {
       await createActivity(token, { name, description });
-      syncActivities();
+      await syncActivities();
     } catch (e) {
       setError(e.message);
     }
